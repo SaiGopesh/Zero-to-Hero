@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zero to AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a warm, hand-made study notebook two friends share — ink, highlighter, sticky notes
+   IDEA: the course is a hand-drawn route sketched in a notebook; every topic is a page you unlock
+   PICTURE: a wobbly ink route map with doodled stations, taped into the first page
+   COLOUR and TYPE: off-white paper, navy ink, yellow highlighter, marker colours per topic; Kalam (Indian handwriting) + Patrick Hand + Courier Prime
+   LAYOUT: notebook pages: hero map, sticky-note how-to, one ruled page per topic, project cards, glossary */
+:root{color-scheme:light dark;
+--paper:light-dark(#fbf7ee,#1b2130);--paper2:light-dark(#f4edde,#212839);--card:light-dark(#fffdf8,#242b3c);
+--ink:light-dark(#1f2a44,#ece7da);--mut:light-dark(#5a6276,#aab0bf);--line:light-dark(#d9cfb8,#3c465b);
+--rule:light-dark(rgba(58,110,165,.11),rgba(236,231,218,.045));--margin:light-dark(rgba(209,73,91,.28),rgba(209,73,91,.35));
+--hl:light-dark(rgba(255,231,76,.75),rgba(201,162,39,.45));--teal:#2a9d8f;--red:#d1495b;--green:#3d9a5b;--blue:#3a6ea5;
+--ok:light-dark(#2f7d4a,#86d19c);--bad:light-dark(#b8344a,#ff9a8a);--slate:#22303c;
+--sk:255px 15px 225px 15px/15px 225px 15px 255px;--sk2:15px 255px 15px 225px/225px 15px 255px 15px;--sk3:20px 6px 18px 8px/8px 18px 6px 20px;
+--shadow:3px 4px 0 light-dark(rgba(31,42,68,.85),rgba(0,0,0,.55))}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:76px}
+body{margin:0;color:var(--ink);font:19px/1.55 "Patrick Hand","Comic Neue",system-ui,sans-serif;overflow-x:clip;
+ background-color:var(--paper);
+ background-image:linear-gradient(90deg,transparent 0 46px,var(--margin) 46px 48px,transparent 48px),repeating-linear-gradient(0deg,transparent 0 31px,var(--rule) 31px 32px)}
+h1,h2,h3,h4,.brand{font-family:"Kalam","Patrick Hand",cursive;line-height:1.08;text-wrap:balance;margin:0;font-weight:700}
+h1{font-size:clamp(38px,6.4vw,58px)}
+h2{font-size:clamp(30px,4.4vw,44px)}
+h3{font-size:24px}
+h4{font-size:21px}
+.hl{background:linear-gradient(100deg,transparent 2%,var(--hl) 4% 94%,transparent 97%) 0 72%/100% 46% no-repeat;padding:0 .12em}
+a{color:var(--blue);text-decoration-thickness:2px;text-underline-offset:3px}
+code,pre,textarea.code,.out{font-family:"Courier Prime","Courier New",ui-monospace,monospace}
+code{background:light-dark(#f1e9d2,#2e3649);padding:1px 6px;border-radius:5px 3px 6px 3px;font-size:.84em;overflow-wrap:anywhere}
+pre{background:var(--slate);color:#eef1e6;padding:12px 14px;border-radius:var(--sk3);overflow-x:auto;font-size:15px}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px) clamp(28px,4vw,64px) max(5vw,64px)}
+.wrap{max-width:1200px;margin:0 auto}
+.mut{color:var(--mut)}
+.note{font-size:17px;color:var(--mut)}
+/* nav: a strip of paper tape */
+nav.top{position:sticky;top:0;z-index:5;background:light-dark(rgba(251,247,238,.94),rgba(27,33,48,.94));backdrop-filter:blur(6px);border-bottom:2px dashed var(--line)}
+nav.top .wrap{display:flex;gap:2px;align-items:center;overflow-x:auto;padding:8px max(5vw,16px)}
+nav.top a{flex:none;text-decoration:none;color:var(--ink);padding:8px 11px;border-radius:var(--sk3);font-size:17px}
+nav.top a.lock{color:var(--mut)}
+nav.top a:hover,nav.top a:focus-visible{background:var(--hl)}
+.brand{flex:none;white-space:nowrap;font-size:22px;margin-right:10px}
+.brand::before{content:"✎ ";color:var(--red)}
+.lead{font-size:21px;max-width:60ch;color:var(--mut);margin:14px 0 0}
+.hero-top{display:flex;gap:24px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
+.doodle{flex:none;width:150px;height:120px}
+/* the taped-in map */
+.fig{position:relative;min-height:320px;margin-top:30px;background:var(--card);border:2px solid var(--ink);border-radius:var(--sk);box-shadow:var(--shadow);transform:rotate(-.4deg)}
+.fig::before,.fig::after{content:"";position:absolute;top:-14px;width:110px;height:28px;background:light-dark(rgba(255,214,102,.7),rgba(201,162,39,.5));transform:rotate(-4deg);z-index:1}
+.fig::before{left:8%}.fig::after{right:8%;transform:rotate(5deg);background:light-dark(rgba(122,197,205,.6),rgba(42,157,143,.45))}
+.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px}
+.seg{display:flex;gap:4px;padding:4px;border:2px solid var(--ink);border-radius:var(--sk2);background:var(--card)}
+button,.btn{font:20px "Patrick Hand",system-ui,sans-serif;min-height:44px;padding:8px 18px;border-radius:var(--sk3);border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer;box-shadow:2px 3px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+button:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:3px 4px 0 var(--ink)}
+button:active:not(:disabled){transform:translate(2px,3px);box-shadow:0 0 0 var(--ink)}
+button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+button.pri{background:var(--teal);color:#fff;border-color:var(--ink)}
+.seg button{border:0;box-shadow:none;border-radius:var(--sk3)}
+.seg button[aria-pressed=true]{background:var(--hl);color:var(--ink)}
+input[type=text],select{font:19px "Patrick Hand",system-ui,sans-serif;background:var(--card);color:var(--ink);border:2px solid var(--ink);border-radius:var(--sk2);padding:8px 14px;min-height:44px;max-width:100%}
+:focus-visible{outline:3px dashed var(--red);outline-offset:3px}
+/* sticky notes */
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:22px;margin-top:30px}
+.how div{padding:18px 18px 20px;font-size:18px;color:#2b2b2b;box-shadow:2px 6px 10px rgba(0,0,0,.14);border-radius:2px 2px 18px 2px;position:relative}
+.how div:nth-child(4n+1){background:#fff3a3;transform:rotate(-1.6deg)}
+.how div:nth-child(4n+2){background:#ffd6e0;transform:rotate(1.2deg)}
+.how div:nth-child(4n+3){background:#cdeffc;transform:rotate(-.8deg)}
+.how div:nth-child(4n+4){background:#d6f5d0;transform:rotate(1.7deg)}
+.how b{display:block;font-family:"Kalam",cursive;font-size:24px;color:#1f2a44;margin-bottom:2px}
+.voicebox{margin-top:26px;background:var(--card);border:2px dashed var(--line);border-radius:var(--sk2);padding:16px 18px}
+/* topic pages */
+.topic{border-top:2px dashed var(--line)}
+.topic.locked .gate{display:flex}
+.thead{display:flex;gap:18px;align-items:flex-start}
+.dot{flex:none;width:62px;height:58px;display:grid;place-items:center;font:700 30px "Kalam",cursive;color:#fff;border-radius:58% 42% 55% 45%/48% 58% 42% 52%;border:2px solid var(--ink);box-shadow:2px 3px 0 var(--ink);transform:rotate(-6deg)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.tag{font-size:16px;border:1.5px solid var(--line);border-radius:var(--sk3);padding:1px 12px;color:var(--mut);background:var(--card)}
+.tag.ok{border-color:var(--ok);color:var(--ok)}
+.tag.lk{border-color:var(--red);color:var(--red)}
+.gate{display:none;gap:10px;align-items:center;margin-top:16px;padding:10px 16px;background:light-dark(#ffe3e3,#3a2530);border:2px solid var(--red);border-radius:var(--sk2);color:light-dark(#7a1f2e,#ffc9d0);transform:rotate(-.3deg)}
+.tgrid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:28px;margin-top:24px;align-items:start}
+@media(max-width:900px){.tgrid{grid-template-columns:minmax(0,1fr)}}
+.vid{position:relative;background:#000;border:2px solid var(--ink);border-radius:var(--sk3);box-shadow:var(--shadow)}
+.vid::before{content:"";position:absolute;left:50%;top:-13px;width:120px;height:26px;margin-left:-60px;background:light-dark(rgba(255,214,102,.75),rgba(201,162,39,.55));transform:rotate(-2deg);z-index:1}
+.vid video{width:100%;aspect-ratio:16/9;display:block;border-radius:var(--sk3)}
+.card{background:var(--card);border:2px solid var(--ink);border-radius:var(--sk);padding:20px 22px;box-shadow:var(--shadow)}
+ul.res{list-style:none;padding:0;margin:8px 0 0}
+ul.res li{padding:8px 0 8px 26px;border-bottom:1.5px dashed var(--line);position:relative}
+ul.res li::before{content:"→";position:absolute;left:2px;color:var(--red)}
+ul.res li:last-child{border:0}
+ul.res small{display:block;color:var(--mut);font-size:16px;line-height:1.35}
+.subs{margin-top:30px;display:grid;gap:16px}
+details.sub{background:var(--card);border:2px solid var(--ink);border-radius:var(--sk2);box-shadow:2px 3px 0 var(--ink)}
+details.sub:nth-child(even){border-radius:var(--sk)}
+details.sub>summary{list-style:none;cursor:pointer;display:flex;gap:14px;align-items:center;padding:14px 20px;min-height:56px;flex-wrap:wrap}
+details.sub>summary::-webkit-details-marker{display:none}
+details.sub>summary::after{content:"＋";font-size:22px;color:var(--mut)}
+details.sub[open]>summary::after{content:"－"}
+.num{flex:none;width:46px;height:38px;display:grid;place-items:center;font:700 18px "Kalam",cursive;border:2px solid var(--ink);border-radius:50% 45% 52% 48%/55% 48% 52% 45%}
+.num.done{background:var(--hl)}
+.stitle{flex:1;font-family:"Kalam",cursive;font-size:22px;min-width:12ch}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:15px;padding:0 10px;border:1.5px solid var(--line);border-radius:var(--sk3);color:var(--mut);white-space:nowrap}
+.chip:empty{display:none}
+.chip.ok{border-color:var(--ok);color:var(--ok)}
+.sbody{padding:0 22px 22px}
+.lesson{max-width:72ch;font-size:20px}
+.lesson p{margin:0 0 10px}
+.lesson b{background:linear-gradient(transparent 58%,var(--hl) 58% 92%,transparent 92%)}
+.step{margin-top:20px;border-top:2px dashed var(--line);padding-top:16px}
+.step h4{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.task{margin:8px 0 12px;max-width:78ch}
+textarea.code{width:100%;min-height:270px;resize:vertical;background:var(--slate);color:#eef1e6;border:2px solid var(--ink);border-radius:var(--sk3);padding:14px 16px;font-size:15.5px;line-height:1.55;tab-size:4;white-space:pre;overflow:auto;box-shadow:inset 0 0 40px rgba(0,0,0,.25)}
+.out{background:light-dark(#fffbe8,#1a2030);border:2px dashed var(--line);border-radius:var(--sk3);padding:12px 14px;font-size:15px;white-space:pre-wrap;margin-top:12px;min-height:50px;max-height:280px;overflow:auto;color:var(--ink)}
+.out.ok{border:2px solid var(--ok);color:var(--ok)}.out.bad{border:2px solid var(--bad);color:var(--bad)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+fieldset{border:0;padding:0;margin:0 0 16px}
+legend{font-family:"Kalam",cursive;font-size:20px;margin-bottom:6px;padding:0}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:7px 12px;border-radius:var(--sk3);cursor:pointer;min-height:44px}
+.opt:hover{background:var(--hl)}
+.opt input{width:22px;height:22px;margin-top:3px;flex:none;accent-color:var(--teal)}
+.fb{font-size:17px;margin:2px 0 0 14px}
+.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.locked-ui{opacity:.5}
+.test{margin-top:30px;border:3px double var(--ink);border-radius:var(--sk);padding:22px;background:var(--card);position:relative}
+.test::before{content:"TEST";position:absolute;right:22px;top:-18px;font:700 20px "Kalam",cursive;color:var(--red);border:2.5px solid var(--red);padding:0 10px;border-radius:6px;transform:rotate(6deg);background:var(--paper)}
+.test.ready{border-color:var(--teal)}
+.test h3{margin-bottom:6px}
+.res-banner{margin-top:14px;padding:12px 16px;border-radius:var(--sk3);font-family:"Kalam",cursive;font-size:21px}
+.res-banner.ok{border:2px solid var(--ok);color:var(--ok)}.res-banner.bad{border:2px solid var(--bad);color:var(--bad)}
+/* projects as index cards */
+.proj{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px;margin-top:22px}
+.proj div{background:var(--card);border:2px solid var(--ink);padding:14px 16px 16px;border-radius:3px;box-shadow:2px 3px 0 var(--ink);background-image:linear-gradient(var(--card) 0 40px,var(--margin) 40px 42px,transparent 42px),repeating-linear-gradient(0deg,transparent 0 27px,var(--rule) 27px 28px)}
+.proj div:nth-child(3n+1){transform:rotate(-.7deg)}.proj div:nth-child(3n+2){transform:rotate(.6deg)}
+.proj b{font-family:"Kalam",cursive;font-size:21px;display:block;line-height:1.3}
+.proj span{font-size:15px;color:var(--red)}
+details.iq{background:var(--card);border:2px solid var(--line);border-radius:var(--sk3);margin-top:10px}
+details.iq summary{cursor:pointer;padding:12px 16px;font-family:"Kalam",cursive;font-size:20px;min-height:44px}
+details.iq p{margin:0;padding:0 16px 14px;color:var(--mut);max-width:78ch}
+.glo{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:12px;margin-top:18px}
+.glo div{padding:10px 4px;border-bottom:2px dashed var(--line)}
+.glo b{font-family:"Kalam",cursive;font-size:21px}
+.parthead{padding-bottom:0}.parthead .kick{font-family:"Kalam",cursive;font-size:22px;color:var(--red);margin:0;transform:rotate(-2deg);display:inline-block}
+.parthead h2{font-size:clamp(34px,5vw,50px)}
+.subvid{max-width:860px;margin:4px 0 20px}
+.subnote p{margin:6px 0 0}
+.speed{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:10px 0 0}
+.speed span{font-family:"Kalam",cursive;font-size:19px;margin-right:4px}
+.speed button{min-height:40px;padding:2px 12px;font-size:17px;box-shadow:1px 2px 0 var(--ink)}
+.speed .pipbtn{margin-left:8px;background:var(--card)}
+.speed button[aria-pressed=true]{background:var(--hl);font-weight:700}
+footer{border-top:2px dashed var(--line);color:var(--mut);font-size:17px}
+.sign{font-family:"Kalam",cursive;font-size:22px;color:var(--ink);transform:rotate(-2deg);display:inline-block;margin-top:10px}
+@media(max-width:600px){.hero-top{flex-wrap:nowrap;align-items:flex-start;gap:8px}.doodle{width:72px;height:60px}.band{padding-left:max(5vw,16px)}body{background-image:repeating-linear-gradient(0deg,transparent 0 31px,var(--rule) 31px 32px)}}
+@media (prefers-reduced-motion:no-preference){.pulse{animation:p 2.2s ease-in-out infinite}@keyframes p{50%{opacity:.25}}}
+</style>
+</head>
+<body>
+<nav class="top"><div class="wrap scroll" id="nav"><span class="brand">Zero → AI Engineer</span><a href="#map">Map</a></div></nav>
+
+<header class="band" id="map"><div class="wrap">
+  <div class="hero-top"><h1>Zero to <span class="hl">AI Engineer</span>,<br>a free route for two</h1>
+  <svg class="doodle" viewBox="0 0 150 120" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" filter="url(#wob)">
+   <path d="M75 18c-19 0-32 14-32 31 0 12 7 19 12 25 4 5 5 9 5 14h30c0-5 1-9 5-14 5-6 12-13 12-25 0-17-13-31-32-31z" fill="rgba(255,231,76,.55)"/>
+   <path d="M62 96h26M64 104h22M70 111h10"/><path d="M68 70c2-10 12-10 14 0M75 70v18"/>
+   <path d="M75 4v6M116 18l-5 5M34 18l5 5M128 48h-7M22 48h7" stroke="#d1495b"/>
+   <path d="M120 82c8 2 12 8 10 15" stroke="#2a9d8f"/><path d="M127 93l3 5 4-4" stroke="#2a9d8f"/></g>
+   <defs><filter id="wob"><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter></defs></svg></div>
+  <p class="lead">From zero to building agents: seven foundation topics (F1–F7) for complete beginners, then eight AI-engineering topics — LLMs, prompting, RAG, knowledge graphs, agents, harnesses, MCP and production. Each topic has its own video, short lessons, coding practice you run right here in the page, a quiz after every sub-topic and a topic test. Pass the test to unlock the next station.</p>
+  <div class="fig" id="fig"><svg id="metro" role="img" aria-label="Route map of the eight topics and your progress"></svg></div>
+  <div class="row">
+    <strong>Learning as:</strong>
+    <div class="seg" role="group" aria-label="Learner"><button id="bA" aria-pressed="true">Learner 1</button><button id="bB" aria-pressed="false">Learner 2</button></div>
+    <input type="text" id="nm" aria-label="Rename this learner" placeholder="Type your name">
+    <button id="resetBtn">Reset this learner</button>
+  </div>
+  <p class="note">Progress and your code are saved in this browser, separately for each learner. Each of you can also use your own device.</p>
+  <div class="voicebox">
+    <div class="row" style="margin-top:0"><label for="voiceSel"><strong>Video voice:</strong></label>
+      <select id="voiceSel" aria-label="Narration voice"><option value="auto">Auto: Bunty where recorded, Indian voice elsewhere</option><option value="">Original narration (built-in)</option></select>
+      <select id="langSel" aria-label="Narration language"><option value="te">Telugu + English script</option><option value="en">English script</option></select>
+      <select id="rateSel" aria-label="Speaking speed"><option value="0.9">Slower</option><option value="1" selected>Normal speed</option><option value="1.1">Faster</option></select>
+      <button id="voiceTest">▶ Test voice</button></div>
+    <p class="note" id="voiceNote">No recording needed: your device reads the narration aloud in time with each video. Choose <b>Telugu + English script</b> with a <b>Telugu (India)</b> voice for Tenglish narration, or the English script with an <b>English (India)</b> voice. These are your device’s own natural voices: on Android/Chrome look for “English (India)” or “తెలుగు (భారతదేశం)”; on Windows use Microsoft Edge, which offers natural India English and Telugu voices; on iPhone add “English (India)” under Settings → Accessibility → Spoken Content → Voices.</p>
+  </div>
+  <div class="how">
+    <div><b>1 · Watch</b>the topic video (2–4 min, narrated and captioned)</div>
+    <div><b>2 · Read & code</b>each sub-topic's lesson, then pass its coding exercise</div>
+    <div><b>3 · Quiz</b>answer the sub-topic's knowledge check to open the next one</div>
+    <div><b>4 · Test</b>score 5/6 on the topic test to unlock the next topic</div>
+  </div>
+</div></header>
+
+<main id="topics"><p class="band mut">Loading the course…</p></main>
+
+<section class="band" id="projects"><div class="wrap">
+  <h2>Portfolio projects & interview prep</h2>
+  <p class="lead">Build at least four of these as you go — each one maps to the topic that teaches it. Push every project to GitHub with a README and a short demo GIF.</p>
+  <div class="proj" id="projList"></div>
+  <h3 style="margin-top:34px">Interview question bank</h3>
+  <p class="note">Answer out loud to each other first, then open the model answer. Also practise Python DSA (e.g. NeetCode 150) and system-design basics.</p>
+  <div id="iqList"></div>
+</div></section>
+<section class="band" id="glossary"><div class="wrap">
+  <h2>Glossary</h2>
+  <input type="text" id="q" placeholder="Search terms, e.g. token" aria-label="Search glossary" style="margin-top:16px;width:min(100%,420px)">
+  <div class="glo" id="glo"></div>
+</div></section>
+
+<section class="band" id="tips"><div class="wrap">
+  <h2>Studying as a pair</h2>
+  <div class="how">
+    <div><b>One rhythm a week</b>Learn alone in the week, then meet for 90 minutes to build the topic's project together.</div>
+    <div><b>Teach it back</b>After each topic, explain one idea to each other with no notes. Can't? Rewatch the video.</div>
+    <div><b>Free compute</b>Google Colab runs Python free in the browser; Ollama runs small open models on a laptop.</div>
+    <div><b>Ship in public</b>Put every project in one shared GitHub repo with a README — by Topic 7 it's your portfolio.</div>
+  </div>
+</div></section>
+
+<footer class="band"><div class="wrap">Built November 2026. The route also draws on two roadmaps you shared: Praneeth Kalluri’s “LLM Engineering Roadmap 2026” and the “Gen AI Developer Roadmap” poster. The coding boxes run Python right in your browser (Brython). A few exercises that need NumPy, pandas or scikit-learn run in Google Colab instead — use “Copy for Colab”. Exercises use small stand-ins for real LLM calls so they work offline; the topic projects use real models. Free courses and tiers change — if a link moves, search the course name. Videos are also sent in the chat as MP4 files to download.<br><span class="sign">— made for two friends learning together ✎</span></div></footer>
+
+<script>
+{
+const COLS=['#3a6ea5','#2a9d8f','#e07a2e','#d1495b','#7b5ea7','#3d9a5b','#c9a227','#b5527d','#1f7a8c','#5b6fd6','#c0603a','#4f8a3c'];
+const DUR0={T0_Python_for_AI:'2:23',T1_How_AI_and_LLMs_Work:'3:42',T2_Prompting_and_APIs:'2:24',T3_Embeddings_and_RAG:'2:49',T4_Knowledge_Graphs_and_GraphRAG:'2:06',T5_AI_Agents_and_Tools:'3:09',T6_Harnesses_Context_and_MCP:'2:36',T7_Evals_FineTuning_and_Shipping:'1:57',T8_Production_Multimodal_Backend_Deploy:'2:25'};
+const PASS=5;const DUR={};
+let C=[], who='A', S=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- state ---------- */
+const blank=()=>({sub:{},test:{},code:{}});
+const load=()=>{try{S=JSON.parse(localStorage.getItem('zte-'+who))||blank()}catch(e){S=blank()}};
+const save=()=>{try{localStorage.setItem('zte-'+who,JSON.stringify(S))}catch(e){}};
+const nameOf=w=>{try{return localStorage.getItem('zte-name-'+w)||''}catch(e){return ''}};
+const subDone=id=>!!(S.sub[id]&&S.sub[id].p&&S.sub[id].q);
+const testPassed=tid=>(S.test[tid]||0)>=PASS;
+const topicOpen=i=>i===0||testPassed(C[i-1].id);
+const subOpen=(t,j)=>topicOpen(C.indexOf(t))&&(j===0||subDone(t.subs[j-1].id));
+const mark=(id,k)=>{S.sub[id]=S.sub[id]||{};S.sub[id][k]=1;save()};
+
+/* ---------- Python runner: Brython (pure JavaScript Python, loaded as plain scripts) ---------- */
+const BRY=['3.12.4','3.12.3','3.12.2','3.12.1','3.11.3'];
+const PYO='https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
+let bryReady=null,bryFailed=false,seq=0,RT=null;
+const loadScript=src=>new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>rej(src);document.head.appendChild(s)});
+const withTimeout=(pr,ms)=>Promise.race([pr,new Promise((_,rej)=>setTimeout(()=>rej(new Error('timed out')),ms))]);
+async function tryPyodide(){await loadScript(PYO+'pyodide.js');const py=await window.loadPyodide({indexURL:PYO});py.registerJsModule('browser',{window});return{kind:'pyodide',py}}
+async function tryBrython(){for(const v of BRY){try{
+      if(!window.__BRYTHON__)await loadScript(`https://cdnjs.cloudflare.com/ajax/libs/brython/${v}/brython.min.js`);
+      await loadScript(`https://cdnjs.cloudflare.com/ajax/libs/brython/${v}/brython_stdlib.js`);
+      if(window.brython){try{window.brython({debug:0})}catch(e){}
+        window.__zte_res=null;runSrc({kind:'brython'},"from browser import window\nwindow.__zte_res = 'ok'");
+        if(window.__zte_res==='ok')return{kind:'brython'}}
+    }catch(e){}}
+  throw new Error('Brython unavailable')}
+function loadPython(){
+  if(RT)return Promise.resolve(RT);
+  if(bryReady)return bryReady;
+  bryReady=(async()=>{
+    try{RT=await withTimeout(tryPyodide(),30000);return RT}catch(e){}
+    try{RT=await withTimeout(tryBrython(),30000);return RT}catch(e){}
+    throw new Error('the in-page Python could not be loaded');})();
+  bryReady.catch(()=>{bryFailed=true;bryReady=null;refresh()});
+  return bryReady;
+}
+function runSrc(rt,src){
+  if(rt.kind==='pyodide'){const ns=rt.py.globals.get('dict')();try{rt.py.runPython(src,{globals:ns})}finally{ns.destroy()}return}
+  const B=window.__BRYTHON__,id='zte'+(++seq);let ran=false;
+  try{if(B&&typeof B.runPythonSource==='function'){B.runPythonSource(src,id);ran=true}}catch(e){}
+  if(!ran&&!window.__zte_res){const sc=document.createElement('script');sc.type='text/python';sc.id=id;sc.textContent=src;document.body.appendChild(sc);try{window.brython({debug:0,ids:[id]})}finally{sc.remove()}}
+}
+const PYH=String.raw`import json as _json
+from browser import window as _window
+_buf = []
+def _print(*a, sep=' ', end='\n', file=None, flush=False):
+    _buf.append(sep.join(str(x) for x in a) + end)
+_FS = {}
+class _File:
+    def __init__(self, name, mode):
+        self.name = name
+        if 'r' in mode and '+' not in mode and name not in _FS:
+            raise FileNotFoundError("No such file or directory: '" + str(name) + "'")
+        if 'w' in mode:
+            _FS[name] = ''
+        elif name not in _FS:
+            _FS[name] = ''
+    def write(self, t):
+        _FS[self.name] = _FS[self.name] + t
+        return len(t)
+    def read(self):
+        return _FS[self.name]
+    def readlines(self):
+        return _FS[self.name].splitlines(True)
+    def __iter__(self):
+        return iter(_FS[self.name].splitlines(True))
+    def close(self):
+        pass
+    def __enter__(self):
+        return self
+    def __exit__(self, *a):
+        return False
+def _open(name, mode='r', *a, **k):
+    return _File(name, mode)
+open = _open
+def _fmt(e):
+    msg = type(e).__name__ + ': ' + str(e)
+    ln = getattr(e, 'lineno', None)
+    if ln:
+        msg = 'line ' + str(ln) + ' — ' + msg
+    return msg
+`;
+function pyProgram(code,tests){
+  return PYH+`__code = ${JSON.stringify(code)}
+_g = {'__name__': '__main__', 'print': _print, 'open': _open}
+_err = ''
+try:
+    exec(__code, _g)
+except BaseException as _e:
+    _err = _fmt(_e)
+__out = ''.join(_buf)
+_passed = False
+_terr = ''
+_tests = ${JSON.stringify(tests||'')}
+if _tests and not _err:
+    for _k in list(_g.keys()):
+        if _k not in ('print', 'open', '__builtins__', '__name__'):
+            globals()[_k] = _g[_k]
+    try:
+        exec(_tests, globals())
+        _passed = True
+    except BaseException as _e:
+        _terr = _fmt(_e)
+_window.__zte_res = _json.dumps({'out': __out, 'err': _err, 'passed': _passed, 'terr': _terr})
+`}
+async function runPy(code,tests){
+  const rt=await loadPython();
+  if(rt.kind==='pyodide'){try{await rt.py.loadPackagesFromImports(code);if(tests)await rt.py.loadPackagesFromImports(tests)}catch(e){}}
+  window.__zte_res=null;
+  try{runSrc(rt,pyProgram(code,tests))}catch(e){}
+  if(!window.__zte_res)return{ok:0,out:'',err:'Python could not run this code here.',crash:1};
+  const r=JSON.parse(window.__zte_res);
+  return{ok:!r.err,out:r.out,err:r.err,passed:r.passed,terr:r.terr};
+}
+/* Full CPython version of the checks, for pasting into Google Colab */
+const harness=(code,tests)=>`import io as _io, contextlib as _cl\n__name__ = "__main__"\n__code = ${JSON.stringify(code)}\n_b = _io.StringIO()\ntry:\n    with _cl.redirect_stdout(_b):\n        exec(__code, globals())\nfinally:\n    __out = _b.getvalue()\n    print(__out, end='')\n${tests}`;
+const tidy=err=>err;
+
+/* ---------- rendering ---------- */
+function quizHTML(name,qs){return qs.map((q,k)=>`<fieldset data-k="${k}"><legend>${k+1}. ${q.q}</legend>${q.o.map((o,m)=>`<label class="opt"><input type="radio" name="${name}-${k}" value="${m}"><span>${o}</span></label>`).join('')}<div class="fb" aria-live="polite"></div></fieldset>`).join('')}
+
+const SPEEDS=[0.75,1,1.25,1.5,1.75,2];
+const getSpeed=()=>{try{const v=+localStorage.getItem('zte-speed');return SPEEDS.includes(v)?v:1}catch(e){return 1}};
+let SPEED=1;
+function applySpeed(sp){SPEED=sp;try{localStorage.setItem('zte-speed',sp)}catch(e){}document.querySelectorAll('video[data-v]').forEach(v=>{v.defaultPlaybackRate=sp;if(v.playbackRate!==sp)v.playbackRate=sp});document.querySelectorAll('.speed button').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.sp===sp))}
+document.addEventListener('click',e=>{const b=e.target.closest('button[data-sp]');if(b)applySpeed(+b.dataset.sp)});
+function vidHTML(name,label,orig='original'){const d=DUR[name]||'';return `<div class="vid"><video controls preload="none" playsinline poster="videos/${name}.jpg" src="videos/${name}.mp4" data-v="${name}" data-title="${esc(label)}" autopictureinpicture${/^Bunty/.test(orig)?' data-bunty="1"':''}></video></div>
+        <div class="speed" role="group" aria-label="Playback speed"><span>Speed</span>${SPEEDS.map(s=>`<button type="button" data-sp="${s}" aria-pressed="false">${s}×</button>`).join('')}<button type="button" class="pipbtn" data-pip="${name}" title="Keep watching in a small floating window while you use other tabs or apps">⧉ Pop-out player</button></div>
+        <p class="note">${label} · ${d} · captions built in · voice: <span class="vname" data-orig="${orig}">${orig}</span> (change it under “Video voice” at the top)</p>`}
+const L=t=>t.label, TL=t=>/^F/.test(t.label)?t.label:'Topic '+t.label;
+function render(){
+  C.forEach(t=>{if(t.cues)DUR[t.video]=fmt(t.cues[t.cues.length-1][1]);t.subs.forEach(s=>{if(s.cues)DUR[s.video]=fmt(s.cues[s.cues.length-1][1])})});
+  $('topics').innerHTML=C.map((t,i)=>`
+  ${i===0?`<div class="band parthead"><div class="wrap"><p class="kick">Part A</p><h2>Foundations — start here if you've never coded</h2><p class="lead">Seven short topics take you from “what is a computer?” to Python, developer tools, the maths behind AI and your first machine-learning models. Every sub-topic has its own video.</p></div></div>`:''}
+  ${t.id==='t1'?`<div class="band parthead"><div class="wrap"><p class="kick">Part B</p><h2>AI engineering</h2><p class="lead">LLMs, prompting, RAG, knowledge graphs, agents, harnesses, MCP, evals and production. Unlocks when you pass the F7 test.</p></div></div>`:''}
+  <section class="band topic" id="${t.id}"><div class="wrap">
+    <div class="thead"><div class="dot" style="background:${COLS[i%COLS.length]}">${L(t)}</div>
+      <div><h2>${TL(t)} · ${t.title}</h2><div class="meta"><span class="tag">${t.weeks}</span><span class="tag">${t.subs.length} sub-topics</span><span class="tag" id="${t.id}-st"></span>${t.pdf?`<span class="tag">📄 PDF handout</span>`:''}</div></div></div>
+    <div class="gate" role="note"><span>🔒 Browse freely — the exercises, quizzes and test open when you pass the <b>${i?TL(C[i-1]):''} test</b>.</span></div>
+    <div class="tgrid">
+      <div>${t.video?vidHTML(t.video,TL(t)+' overview video'):`<div class="card subnote"><h3>How this topic works</h3><p>Each of the ${t.subs.length} sub-topics below has its <b>own short video</b>, a lesson, a coding exercise and a quiz. Open them in order.</p></div>`}
+        <p style="max-width:70ch">${t.intro}</p>
+        ${t.pdf?`<p class="note pdfnote" data-pdf="${t.pdf}">📄 <b>${t.pdf}</b> — notes, cheat sheet, practice questions and answers.</p>`:''}</div>
+      <div class="card"><h3>Go deeper (free)</h3><ul class="res">${t.res.map(r=>`<li><a href="${r[1]}" target="_blank" rel="noopener">${r[0]}</a><small>${r[2]}</small></li>`).join('')}</ul>
+        <h3 style="margin-top:16px">Build together</h3><p class="mut" style="margin:6px 0 0">${t.project}</p></div>
+    </div>
+    <div class="subs">${t.subs.map((s,j)=>`
+      <details class="sub" id="${s.id}">
+        <summary><span class="num" id="${s.id}-n">${L(t)}.${j+1}</span><span class="stitle">${s.title}</span><span class="chips">${s.video?'<span class="chip">▶ video</span>':''}<span class="chip" id="${s.id}-cp">Practice</span><span class="chip" id="${s.id}-cq">Quiz</span></span></summary>
+        <div class="sbody">
+          ${s.video?`<div class="subvid">${vidHTML(s.video,'Video '+L(t)+'.'+(j+1),s.voice==='bunty'?'Bunty, Telugu + English':'original')}</div>`:''}
+          <div class="lesson">${s.lesson}</div>
+          <div class="step pr"><h4>Practice: code it <span class="chip" id="${s.id}-lock"></span></h4>
+            <div class="task">${s.task}</div>
+            <textarea class="code" id="${s.id}-ed" spellcheck="false" aria-label="Code editor for ${esc(s.title)}"></textarea>
+            <div class="btns"><button data-a="run" data-s="${s.id}">▶ Run</button><button class="pri" data-a="check" data-s="${s.id}">Check my answer</button><button data-a="hint" data-s="${s.id}">Hint</button><button data-a="reset" data-s="${s.id}">Reset code</button><button data-a="sol" data-s="${s.id}" id="${s.id}-solb" disabled>Show solution</button><button data-a="copy" data-s="${s.id}">Copy for Colab</button><button data-a="self" data-s="${s.id}" id="${s.id}-self" hidden>I ran it in Colab ✓</button></div>
+            ${s.colab?`<p class="note">⚠ This one uses ${s.colab}, which runs in Google Colab rather than in this page. Use “Copy for Colab”, then tick it off.</p>`:''}
+            <div class="out" id="${s.id}-out" aria-live="polite">Output appears here.</div></div>
+          <div class="step qz"><h4>Knowledge check</h4><p class="note"></p>
+            <form data-quiz="${s.id}">${quizHTML(s.id,s.quiz)}<button class="pri" type="submit">Submit answers</button></form></div>
+        </div></details>`).join('')}</div>
+    <div class="test" id="${t.id}-test"><h3>${TL(t)} test</h3><p class="note" id="${t.id}-tnote"></p>
+      <form data-test="${t.id}">${quizHTML(t.id+'T',t.test)}<button class="pri" type="submit">Submit test</button><div id="${t.id}-tres" aria-live="polite"></div></form></div>
+  </div></section>`).join('');
+  C.forEach(t=>t.subs.forEach(s=>{$(s.id+'-ed').value=S.code[s.id]||s.starter}));
+  document.querySelectorAll('video[data-v]').forEach(v=>{wireVideo(v);v.muted=!!curVoice(v)});syncNames();applySpeed(getSpeed());document.dispatchEvent(new Event('zte-rendered'));
+  $('nav').innerHTML='<span class="brand">Zero → AI Engineer</span><a href="#map">Map</a>'+C.map((t,i)=>`<a href="#${t.id}" id="nav-${t.id}">${L(t)} ${t.short}</a>`).join('')+'<a href="#projects">Projects & interviews</a><a href="#glossary">Glossary</a><a href="#tips">Tips</a>';
+  refresh();
+}
+const fmt=x=>Math.floor(x/60)+':'+String(Math.round(x%60)).padStart(2,'0');
+function setDisabled(root,dis){root.querySelectorAll('button,input,textarea').forEach(x=>{x.disabled=dis});root.classList.toggle('locked-ui',dis)}
+
+function refresh(){
+  C.forEach((t,i)=>{
+    const open=topicOpen(i),sec=$(t.id);sec.classList.toggle('locked',!open);
+    const nd=t.subs.filter(s=>subDone(s.id)).length,tp=testPassed(t.id);
+    const st=$(t.id+'-st');st.className='tag '+(tp?'ok':open?'':'lk');
+    st.textContent=tp?`Passed · ${S.test[t.id]}/6`:open?`${nd} of ${t.subs.length} done`:'Locked';
+    $('nav-'+t.id).classList.toggle('lock',!open);$('nav-'+t.id).textContent=`${open?'':'🔒 '}${L(t)} ${t.short}`;
+    t.subs.forEach((s,j)=>{
+      const so=subOpen(t,j),d=S.sub[s.id]||{};
+      setDisabled($(s.id).querySelector('.pr'),!so);setDisabled($(s.id).querySelector('.qz'),!so||!d.p);
+      $(s.id+'-solb').disabled=!so||!d.tried;$(s.id+'-self').hidden=!(so&&!d.p&&(s.colab||bryFailed||d.copied||(d.fails||0)>=2));
+      $(s.id+'-cp').className='chip'+(d.p?' ok':'');$(s.id+'-cp').textContent=d.p?'✓ Practice':'Practice';
+      $(s.id+'-cq').className='chip'+(d.q?' ok':'');$(s.id+'-cq').textContent=d.q?'✓ Quiz':'Quiz';
+      $(s.id+'-n').className='num'+(subDone(s.id)?' done':'');
+      $(s.id+'-lock').textContent=!open?'🔒 topic locked':!so?'🔒 finish the previous sub-topic first':d.p?'✓ passed':'';
+      $(s.id+'-lock').className='chip'+(d.p?' ok':'');
+      $(s.id).querySelector('.qz .note').textContent=!so?'Locked.':!d.p?'Pass the practice above to open this quiz.':d.q?'✓ Completed.':'Get both right to complete this sub-topic.';
+    });
+    const ready=open&&nd===t.subs.length;
+    setDisabled($(t.id+'-test'),!ready);$(t.id+'-test').classList.toggle('ready',ready&&!tp);
+    $(t.id+'-tnote').textContent=tp?`Passed with ${S.test[t.id]}/6. ${i<C.length-1?TL(C[i+1])+' is unlocked.':'You have completed the route — congratulations!'}`:ready?`Score at least ${PASS} of 6 to ${i<C.length-1?'unlock '+TL(C[i+1]):'finish the course'}. You can retry.`:`Opens when all ${t.subs.length} sub-topics are complete.`;
+  });
+  ['A','B'].forEach((w,i)=>{$('b'+w).textContent=nameOf(w)||'Learner '+(i+1);$('b'+w).setAttribute('aria-pressed',w===who)});
+  $('nm').value=nameOf(who);
+  draw();
+}
+
+/* ---------- metro map ---------- */
+const svg=$('metro'),fig=$('fig');
+function draw(){
+  if(!C.length)return;
+  const W=svg.clientWidth,H=svg.clientHeight,nar=W<1000,n=C.length;
+  const ink=getComputedStyle(document.body).color,mut=getComputedStyle(document.documentElement).getPropertyValue('--mut').trim()||'#888';
+  const pts=C.map((t,i)=>{if(nar){const col=i%2,row=Math.floor(i/2),rows=Math.ceil(n/2)-1;return[W*(col?.72:.28),62+row*((H-160)/rows)]}const k=i/(n-1);return[110+k*(W-220),H*.56+Math.sin(k*Math.PI*2.1+.3)*H*.17]});
+  const seg=(a,b,j)=>{const mx=(a[0]+b[0])/2+(j%2?10:-10),my=(a[1]+b[1])/2+(j%2?-16:16);return `M${a[0]} ${a[1]} Q${mx} ${my} ${b[0]} ${b[1]}`};
+  let g=`<defs><filter id="wob2" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter>
+   <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="${ink}" stroke-width="1.8"/></marker></defs><g filter="url(#wob2)">`;
+  for(let i=0;i<n-1;i++){const lit=topicOpen(i+1),d=seg(pts[i],pts[i+1],i);
+    g+=lit?`<path d="${d}" fill="none" stroke="${COLS[i%COLS.length]}" stroke-width="9" stroke-linecap="round" opacity=".9"/><path d="${d}" fill="none" stroke="${ink}" stroke-width="1.4" stroke-linecap="round" transform="translate(1.5 -2)" opacity=".55"/>`
+           :`<path d="${d}" fill="none" stroke="${mut}" stroke-width="3" stroke-linecap="round" stroke-dasharray="3 11"/>`}
+  const cur=C.findIndex((t,i)=>topicOpen(i)&&!testPassed(t.id));
+  g+=pts.map((q,i)=>{
+    const t=C[i],open=topicOpen(i),done=testPassed(t.id),nd=t.subs.filter(s=>subDone(s.id)).length,[x,y]=q;
+    const ly=nar?y+48:(i%2===0?y-40:y+52);
+    const circ=`<ellipse cx="${x}" cy="${y}" rx="19" ry="17.5" fill="${done?COLS[i%COLS.length]:'var(--card)'}" stroke="${open?COLS[i%COLS.length]:mut}" stroke-width="4" transform="rotate(${i*23} ${x} ${y})"/><ellipse cx="${x+1.5}" cy="${y-1}" rx="21" ry="18" fill="none" stroke="${open?ink:mut}" stroke-width="1.3" opacity=".7"/>`;
+    const icon=done?`<path d="M${x-8} ${y+1}l6 7l12-15" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`
+      :open?`<text x="${x}" y="${y+7}" text-anchor="middle" font-family="Kalam,cursive" font-weight="700" font-size="${L(t).length>1?16:19}" fill="${COLS[i%COLS.length]}">${L(t)}</text>`
+      :`<path d="M${x-5} ${y-1}v-4a5 5 0 0 1 10 0v4M${x-7} ${y-1}h14v9h-14z" fill="none" stroke="${mut}" stroke-width="2"/>`;
+    const dy=i%2===0?1:-1;
+    const here=i===cur&&!nar?`<g class="pulse"><path d="M${x+6} ${y+dy*64}q-10 ${-dy*14} -6 ${-dy*36}" fill="none" stroke="var(--red)" stroke-width="2.4" marker-end="url(#ah)"/><text x="${x+8}" y="${y+dy*64+(dy>0?18:-6)}" text-anchor="middle" font-family="Kalam,cursive" font-size="17" fill="var(--red)">you are here</text></g>`:'';
+    return `<a href="#${t.id}" aria-label="Topic ${i}: ${t.title}">${here}${circ}${icon}
+      <text x="${x}" y="${ly}" fill="${open?ink:mut}" text-anchor="middle" font-family="Kalam,cursive" font-weight="700" font-size="${nar?16:(n>10?16:18)}">${t.short}</text>
+      <text x="${x}" y="${ly+19}" fill="${mut}" text-anchor="middle" font-family="Patrick Hand,cursive" font-size="15">${done?'✓ passed':open?nd+' of '+t.subs.length+' done':'locked'}</text></a>`}).join('')+'</g>';
+  if(!nar)g+=`<text x="40" y="38" fill="${mut}" font-family="Kalam,cursive" font-size="18" transform="rotate(-4 40 38)">start here ↓</text><text x="${W-40}" y="38" fill="${mut}" font-family="Kalam,cursive" font-size="18" text-anchor="end" transform="rotate(3 ${W-40} 38)">AI engineer ★</text>`;
+  svg.innerHTML=g;
+}
+const ro=new ResizeObserver(()=>{fig.style.minHeight=(svg.clientWidth<1000?(C.length>9?760:640):340)+'px';draw()});ro.observe(svg);
+
+/* ---------- events ---------- */
+const findSub=id=>{for(const t of C)for(const s of t.subs)if(s.id===id)return s};
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('button[data-a]');if(!b)return;
+  const s=findSub(b.dataset.s),ed=$(s.id+'-ed'),out=$(s.id+'-out'),a=b.dataset.a;
+  S.sub[s.id]=S.sub[s.id]||{};const d=S.sub[s.id];
+  if(a==='reset'){ed.value=s.starter;S.code[s.id]=s.starter;save();out.className='out';out.textContent='Code reset.';return}
+  if(a==='hint'){out.className='out';out.textContent='Hint: '+(s.hint||'Re-read the task and the comments in the code.');return}
+  if(a==='sol'){ed.value=s.solution;S.code[s.id]=s.solution;save();out.className='out';out.textContent='Solution loaded. Read it line by line, then press "Check my answer".';return}
+  if(a==='copy'){const txt=harness(ed.value,s.tests);let okc=false;try{await navigator.clipboard.writeText(txt);okc=true}catch(x){}
+    out.className='out';out.textContent=okc?'Copied! Open colab.research.google.com → New notebook → paste into a cell → press ▶. If it prints ALL TESTS PASSED, come back and press "I ran it in Colab ✓".':'Copy didn\'t work in this browser — select the code in the box above, copy it, and run it in Google Colab.';
+    d.copied=1;save();refresh();return}
+  if(a==='self'){mark(s.id,'p');out.className='out ok';out.textContent='✓ Marked as done. Now answer the knowledge check below.';refresh();return}
+  if(s.colab&&(!RT||RT.kind!=='pyodide')){try{out.className='out';out.textContent='Checking whether this device can run '+s.colab+'…';await loadPython()}catch(x){}}
+  if(s.colab&&(!RT||RT.kind!=='pyodide')){out.className='out';out.textContent='This exercise uses '+s.colab+', which can\'t run inside this page.\n1. Press "Copy for Colab".\n2. Open colab.research.google.com → New notebook → paste → press ▶.\n3. When it prints ALL TESTS PASSED, press "I ran it in Colab ✓".';d.copied=1;save();refresh();return}
+  out.className='out';out.textContent=bryReady||window.__zte_loaded?'Running…':'Starting Python (first time only, a few seconds)…';
+  b.disabled=true;
+  try{
+    const r=await runPy(ed.value,a==='check'?s.tests:'');window.__zte_loaded=1;
+    if(r.crash){bryFailed=true;throw new Error(r.err)}
+    if(a==='run'){out.className='out'+(r.ok?'':' bad');out.textContent=(r.out||'')+(r.ok?(r.out?'':'(no output — add a print() to see results)'):(r.out?'\n':'')+r.err)}
+    else{
+      d.tried=1;
+      if(r.ok&&r.passed){mark(s.id,'p');out.className='out ok';out.textContent='✓ All checks passed! Now answer the knowledge check below.'}
+      else{d.fails=(d.fails||0)+1;save();out.className='out bad';
+        const msg=r.err?('Your code stopped with an error: '+r.err):(r.terr||'a check failed.').replace(/^AssertionError:\s*/,'');
+        out.textContent='Not yet — '+msg+'\n\nTip: press Run to see your output, or Hint for a nudge. "Show solution" is now available.'+(d.fails>=2?' If you think your answer is right, press "Copy for Colab" to double-check it there.':'')}
+      refresh();
+    }
+  }catch(err){bryFailed=true;out.className='out bad';out.textContent='The in-page Python couldn\'t start on this device ('+(err.message||err)+').\nYou can still finish: press "Copy for Colab", run it at colab.research.google.com, then press "I ran it in Colab ✓".';refresh()}
+  b.disabled=false;
+});
+document.addEventListener('input',e=>{if(e.target.matches('textarea.code')){S.code[e.target.id.replace(/-ed$/,'')]=e.target.value;save()}});
+document.addEventListener('keydown',e=>{if(e.key==='Tab'&&e.target.matches('textarea.code')&&!e.shiftKey){e.preventDefault();const t=e.target,p=t.selectionStart;t.setRangeText('    ',p,t.selectionEnd,'end');t.dispatchEvent(new Event('input',{bubbles:true}))}});
+document.addEventListener('submit',e=>{
+  const f=e.target;e.preventDefault();
+  if(f.dataset.quiz){const s=findSub(f.dataset.quiz);let n=0;
+    s.quiz.forEach((q,k)=>{const fs=f.querySelector(`fieldset[data-k="${k}"]`),c=fs.querySelector('input:checked'),fb=fs.querySelector('.fb');const ok=c&&+c.value===q.a;if(ok)n++;fb.className='fb '+(ok?'ok':'bad');fb.textContent=!c?'Choose an answer.':ok?'✓ Correct. '+q.why:'✗ Not quite — re-read the lesson and try again.'});
+    if(n===s.quiz.length){mark(s.id,'q');const t=C.find(t=>t.subs.includes(s)),j=t.subs.indexOf(s);refresh();const nx=t.subs[j+1];if(nx)setTimeout(()=>{$(s.id).open=false;$(nx.id).open=true;$(nx.id).scrollIntoView({block:'start'})},900);else setTimeout(()=>$(t.id+'-test').scrollIntoView({block:'start'}),900)}}
+  if(f.dataset.test){const t=C.find(t=>t.id===f.dataset.test);let n=0;
+    t.test.forEach((q,k)=>{const fs=f.querySelector(`fieldset[data-k="${k}"]`),c=fs.querySelector('input:checked'),fb=fs.querySelector('.fb');const ok=c&&+c.value===q.a;if(ok)n++;fb.className='fb '+(ok?'ok':'bad');fb.textContent=ok?'✓ '+q.why:'✗ '+(c?'Incorrect.':'Not answered.')});
+    S.test[t.id]=Math.max(S.test[t.id]||0,n);save();const i=C.indexOf(t),ok=n>=PASS;
+    refresh();
+    $(t.id+'-tres').innerHTML=`<div class="res-banner ${ok?'ok':'bad'}">${ok?`🎉 ${n}/6 — passed! ${i<C.length-1?`${TL(C[i+1])} is now unlocked. <a href="#${C[i+1].id}">Go to ${TL(C[i+1])} →</a>`:'You have completed the whole route!'}`:`${n}/6 — you need ${PASS}. Review the questions marked ✗ and try again.`}</div>`;}
+});
+$('bA').onclick=()=>{who='A';load();render()};$('bB').onclick=()=>{who='B';load();render()};
+$('nm').addEventListener('input',e=>{try{localStorage.setItem('zte-name-'+who,e.target.value.trim())}catch(x){}$('b'+who).textContent=e.target.value.trim()||'Learner '+(who==='A'?1:2)});
+let armed=0;$('resetBtn').onclick=()=>{if(!armed){armed=1;$('resetBtn').textContent='Tap again to erase all progress';setTimeout(()=>{armed=0;$('resetBtn').textContent='Reset this learner'},4000);return}armed=0;S=blank();save();$('resetBtn').textContent='Reset this learner';render()};
+
+
+/* ---------- projects & interview prep ---------- */
+const PJ=[['“Explain like I’m 5” bot','Pick a model, set a complexity level, stream the answer; show tokens, time and cost.','Topic 2'],['AI code reviewer','Paste code, get structured JSON feedback: bugs, style, security, severity.','Topic 2'],['PDF chat app','Upload PDFs, ask questions, get answers with page citations.','Topic 3'],['Chat with any GitHub repo','Index a repo’s files, answer questions about the codebase with file references.','Topic 3'],['Resume analyser','Compare a CV with a job ad: match score, gaps and rewrite suggestions as JSON.','Topics 2–3'],['Knowledge-graph explorer','Extract a graph from articles and answer multi-hop questions with GraphRAG.','Topic 4'],['Smart study-planner agent','An agent with calendar and to-do tools that plans your week of learning.','Topic 5'],['AI research agent','Searches the web, reads pages, writes a cited summary; shows each step.','Topics 5–6'],['Mini coding assistant','A tiny harness that reads files, proposes edits and asks before writing.','Topic 6'],['Customer support bot','Router + RAG over FAQs + human handover for risky requests.','Topics 3, 5, 6'],['AI model arena','Send one prompt to several providers side by side; vote and track evals.','Topics 7–8'],['UI screenshot → code','Upload a screenshot, get HTML/CSS back (multimodal).','Topic 8'],['Voice assistant','Speech-to-text → LLM → text-to-speech, with one or two tools.','Topics 5, 8'],['AI developer dashboard (capstone)','Auth, chat history in Postgres, Redis cache, provider fallback, Docker + CI/CD.','Topic 8']];
+$('projList').innerHTML=PJ.map(x=>`<div><b>${x[0]}</b><p class="mut" style="margin:6px 0">${x[1]}</p><span>${x[2]}</span></div>`).join('');
+const IQ=[['What is a token, and why does it matter for cost and limits?','A token is a chunk of text (word or word-piece; ~0.75 English words). Context windows and pricing are measured in tokens, so long prompts or histories cost more, are slower and can overflow the window.'],['Explain how a transformer uses attention.','Each token builds a query, key and value; it compares its query with every other token’s key to get attention weights, then mixes their values. This lets the model use context from anywhere in the sequence. Many attention layers are stacked.'],['What is temperature?','A setting that scales the model’s scores before softmax. Low = sharp, predictable outputs; high = flatter, more varied outputs. Use low for extraction and code, higher for brainstorming.'],['When would you use RAG vs fine-tuning?','RAG when the model needs knowledge it lacks (private, recent, citable facts). Fine-tuning to change behaviour, style or format, or to make a smaller model good at a narrow task. Try prompting first, then RAG, then fine-tuning.'],['Walk through a RAG pipeline end to end.','Indexing: load docs → chunk with overlap → embed → store in a vector DB (Chroma, FAISS, Pinecone, Weaviate, pgvector). Query: embed question → retrieve top-k (optionally hybrid + re-rank) → build a prompt with numbered sources → generate a grounded answer with citations → evaluate (e.g. Ragas).'],['How do you reduce hallucinations?','Ground with RAG and tell the model to answer only from sources and say “I don’t know”; ask for citations; use structured output and validation; lower temperature; add evals and human review for high-stakes cases.'],['Why and how would you chunk documents?','Whole documents are too long and dilute relevance. Split by tokens, sentences or headings into a few hundred tokens with some overlap; tune size using retrieval evals.'],['What is a knowledge graph, and when is GraphRAG better than vector RAG?','Facts stored as nodes and typed relationships (triples). GraphRAG wins on multi-hop questions and connected data; vector RAG wins on finding similar passages. Hybrid combines both.'],['What is an agent, and how does tool calling work?','An LLM using tools in a loop toward a goal. The model emits a structured tool request; your code runs it and returns the result; the loop repeats (think → act → observe) until a final answer or a stop rule.'],['Workflow vs agent — which would you choose?','Use a workflow (chain, router, parallel steps) when the steps are known — cheaper, faster, more predictable. Use an agent when steps can’t be known in advance. Start simple.'],['What is a harness? What does context engineering mean?','The harness is the code around the model: prompt, tools, memory, context management, permissions, loop and logging. Context engineering is choosing what goes into the window each step — compacting history, just-in-time retrieval, notes files, sub-agents.'],['What is MCP?','Model Context Protocol: an open standard connecting AI apps (hosts and clients) to servers that expose tools, resources and prompts over JSON-RPC (tools/list, tools/call). Build an integration once, use it in any MCP-compatible app.'],['How do you defend against prompt injection?','Treat tool and web content as data, never instructions; keep risky tools behind human approval; least-privilege access; filter and log; test with the OWASP Top 10 for LLM apps.'],['How do you evaluate an LLM app?','A test set of inputs with expected outputs or rubrics; programmatic checks where possible, LLM-as-judge (validated against humans) for open-ended answers; track accuracy, latency and cost; re-run on every change in CI.'],['Design a production chat-with-your-docs service.','FastAPI backend with auth and rate limits; ingestion workers → chunk/embed → Postgres + pgvector; Redis cache; streaming responses; provider fallback; tracing (e.g. Langfuse); evals in CI; Docker deploy; secrets in environment variables.']];
+$('iqList').innerHTML=IQ.map(x=>`<details class="iq"><summary>${x[0]}</summary><p>${x[1]}</p></details>`).join('');
+
+/* ---------- device-voice narration ---------- */
+const SS=window.speechSynthesis;let voices=[];
+const vKey='zte-voice',rKey='zte-rate';
+const pref=()=>{try{return localStorage.getItem(vKey)||''}catch(e){return ''}};
+const rate=()=>+($('rateSel').value||1);const lang=()=>$('langSel').value;
+function listVoices(){
+  if(!SS){$('voiceNote').textContent='This browser has no speech voices, so videos use the original narration.';return}
+  voices=SS.getVoices();if(!voices.length)return;
+  const score=v=>/te[-_]IN/i.test(v.lang)?1:/en[-_]IN/i.test(v.lang)?0:/hi[-_]IN/i.test(v.lang)?2:/^en/i.test(v.lang)?3:9;
+  const nat=v=>/natural|neural|online|google|enhanced|premium/i.test(v.name)?0:1;
+  const list=voices.filter(v=>score(v)<9).sort((a,b)=>score(a)-score(b)||nat(a)-nat(b)||a.name.localeCompare(b.name));
+  const lab=v=>(/te[-_]IN/i.test(v.lang)?'Telugu accent · ':/en[-_]IN/i.test(v.lang)?'Indian English · ':/hi[-_]IN/i.test(v.lang)?'Hindi voice · ':'')+v.name+' ('+v.lang+')';
+  $('voiceSel').innerHTML='<option value="auto">Auto: Bunty where recorded, Indian voice elsewhere</option><option value="">Original narration (built-in)</option>'+list.map(v=>`<option value="${esc(v.voiceURI)}">${esc(lab(v))}</option>`).join('');
+  const want=pref();
+  if(want&&want!=='auto'&&list.some(v=>v.voiceURI===want))$('voiceSel').value=want;else if(want==='original')$('voiceSel').value='';else $('voiceSel').value='auto';
+  
+  if(!list.some(v=>/(en|te)[-_]IN/i.test(v.lang))&&!$('voiceNote').dataset.warned){$('voiceNote').dataset.warned=1;$('voiceNote').insertAdjacentHTML('afterbegin','<b>No India English or Telugu voice is installed on this device yet.</b> ')}
+  syncNames();
+}
+const indianVoice=()=>{const nat=v=>/natural|neural|online|google|enhanced|premium/i.test(v.name)?0:1;const pick=re=>voices.filter(v=>re.test(v.lang)).sort((a,b)=>nat(a)-nat(b))[0];return (lang()==='te'&&pick(/te[-_]IN/i))||pick(/en[-_]IN/i)||pick(/te[-_]IN/i)||pick(/hi[-_]IN/i)||null};
+const curVoice=vid=>{const sel=$('voiceSel').value;if(sel==='auto'){if(vid&&vid.dataset.bunty)return null;return indianVoice()}return voices.find(v=>v.voiceURI===sel)||null};
+function syncNames(){document.querySelectorAll('.vname').forEach(s=>{const bunty=/^Bunty/.test(s.dataset.orig||'');const v=curVoice(bunty?{dataset:{bunty:1}}:null);s.textContent=v?v.name+' (your device)':(s.dataset.orig||'original')})}
+if(SS){listVoices();SS.onvoiceschanged=listVoices}
+try{const r=localStorage.getItem(rKey);if(r)$('rateSel').value=r}catch(e){}
+$('voiceSel').onchange=()=>{try{localStorage.setItem(vKey,$('voiceSel').value||'original')}catch(e){}syncNames();if(SS)SS.cancel();document.querySelectorAll('video[data-v]').forEach(v=>{v.muted=!!curVoice(v)})};
+$('rateSel').onchange=()=>{try{localStorage.setItem(rKey,$('rateSel').value)}catch(e){}};
+try{const l=localStorage.getItem('zte-lang');if(l)$('langSel').value=l}catch(e){}
+$('langSel').onchange=()=>{try{localStorage.setItem('zte-lang',lang())}catch(e){}if(SS)SS.cancel();syncNames();const v=curVoice();if($('voiceSel').value!=='auto'&&lang()==='te'&&(!v||!/te[-_]IN/i.test(v.lang))){const tv=voices.find(x=>/te[-_]IN/i.test(x.lang));if(tv){$('voiceSel').value=tv.voiceURI;$('voiceSel').onchange()}}};
+function say(text,v,onend){const u=new SpeechSynthesisUtterance(text);u.voice=v;u.lang=v.lang;u.rate=Math.min(2,rate()*SPEED);u.onend=u.onerror=onend;SS.speak(u)}
+$('voiceTest').onclick=()=>{const v=curVoice();if(!v||!SS){$('voiceNote').textContent='Choose a voice from the list first (the original narration is in the videos themselves).';return}SS.cancel();say(lang()==='te'?'నమస్కారం! మనం ఈ రోజు large language models ఎలా పని చేస్తాయో నేర్చుకుందాం.':'Hello! Namaskaram. Let us learn how large language models work, one token at a time.',v,()=>{})};
+function wireVideo(video){
+  if(video.dataset.wired)return;video.dataset.wired=1;
+  let tc=C.find(t=>t.video===video.dataset.v);if(!tc)for(const t of C){const s=t.subs.find(s=>s.video===video.dataset.v);if(s){tc=s;break}}if(!tc||!tc.cues||!video.addTextTrack||!window.VTTCue)return;const tr=video.addTextTrack('metadata','narration','en');tc.cues.forEach(c=>{const q=new VTTCue(c[0],c[1],c[2]);q.te=c[3]||'';tr.addCue(q)});tr.mode='hidden';
+  let last=null,pending=null,speaking=false,holding=false;
+  const speakCue=c=>{const v=curVoice(video);if(!v||!SS)return;speaking=true;last=c;say((lang()==='te'&&c.te&&/te[-_]IN/i.test(v.lang))?c.te:c.text,v,()=>{speaking=false;if(pending){const n=pending;pending=null;speakCue(n)}else if(holding){holding=false;video.play().catch(()=>{})}})};
+  tr.oncuechange=()=>{if(!curVoice(video)||video.paused&&!holding)return;const c=tr.activeCues&&tr.activeCues[0];if(!c||c===last)return;
+    if(speaking){pending=c;if(!holding){holding=true;video.pause()}}else speakCue(c)};
+  video.addEventListener('ratechange',()=>{if(video.playbackRate!==SPEED&&SPEEDS.includes(video.playbackRate))applySpeed(video.playbackRate)});
+  video.addEventListener('play',()=>{video.muted=!!curVoice(video);if(SS&&SS.paused)SS.resume();if(!holding&&curVoice(video)&&!speaking){const c=tr.activeCues&&tr.activeCues[0];if(c&&c!==last)speakCue(c)}});
+  video.addEventListener('pause',()=>{if(holding)return;if(SS)SS.pause()});
+  video.addEventListener('seeking',()=>{if(SS)SS.cancel();speaking=false;pending=null;holding=false;last=null});
+  video.addEventListener('ended',()=>{last=null});
+}
+
+/* ---------- pop-out (picture-in-picture) player ---------- */
+let lastPlaying=null;
+const pipOK=()=>document.pictureInPictureEnabled&&!!HTMLVideoElement.prototype.requestPictureInPicture;
+async function popOut(v){try{if(document.pictureInPictureElement===v){await document.exitPictureInPicture();return}if(v.paused)await v.play();await v.requestPictureInPicture()}catch(e){if(v.webkitSupportsPresentationMode&&v.webkitSetPresentationMode){try{v.webkitSetPresentationMode('picture-in-picture')}catch(x){}}}}
+document.addEventListener('click',e=>{const b=e.target.closest('button[data-pip]');if(!b)return;const v=document.querySelector(`video[data-v="${b.dataset.pip}"]`);if(v)popOut(v)});
+document.addEventListener('play',e=>{const v=e.target;if(!(v instanceof HTMLVideoElement))return;
+  document.querySelectorAll('video[data-v]').forEach(o=>{if(o!==v&&!o.paused)o.pause()});lastPlaying=v;
+  if('mediaSession' in navigator){try{navigator.mediaSession.metadata=new MediaMetadata({title:v.dataset.title||'Zero to AI Engineer',artist:'Zero to AI Engineer'});
+    navigator.mediaSession.setActionHandler('play',()=>lastPlaying&&lastPlaying.play());navigator.mediaSession.setActionHandler('pause',()=>lastPlaying&&lastPlaying.pause());
+    navigator.mediaSession.setActionHandler('seekbackward',d=>{if(lastPlaying)lastPlaying.currentTime=Math.max(0,lastPlaying.currentTime-(d.seekOffset||10))});
+    navigator.mediaSession.setActionHandler('seekforward',d=>{if(lastPlaying)lastPlaying.currentTime+=d.seekOffset||10});
+    try{navigator.mediaSession.setActionHandler('enterpictureinpicture',()=>{if(lastPlaying)lastPlaying.requestPictureInPicture().catch(()=>{})})}catch(x){}
+  }catch(x){}}},true);
+/* leaving the tab while a video plays: try to pop it out automatically (works where the browser allows it) */
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&lastPlaying&&!lastPlaying.paused&&!document.pictureInPictureElement&&pipOK()){lastPlaying.requestPictureInPicture().catch(()=>{})}});
+/* show PDF download links when the handouts are hosted next to the page (e.g. on Vercel) */
+document.addEventListener('zte-rendered',()=>{document.querySelectorAll('.pdfnote').forEach(n=>{const f='handouts/'+n.dataset.pdf;fetch(f,{method:'HEAD'}).then(r=>{if(r.ok)n.innerHTML=`📄 <a href="${f}" download>Download the PDF handout</a> — notes, cheat sheet, practice questions and answers.`}).catch(()=>{})});
+  if(!pipOK()&&!document.createElement('video').webkitSupportsPresentationMode)document.querySelectorAll('.pipbtn').forEach(b=>b.hidden=true)});
+/* ---------- glossary ---------- */
+const G=[['Token','A chunk of text (word or word-piece). ~100 tokens ≈ 75 English words.'],['LLM','Large language model: a huge neural network trained to predict the next token.'],['Neural network','Layers of simple maths units (neurons) whose weights are learned from data.'],['Parameters','The billions of learned weights inside a model.'],['Transformer','The 2017 architecture behind modern LLMs, built on attention.'],['Attention','Lets a model weigh which earlier tokens matter for the current one.'],['Softmax','Turns raw scores into probabilities that add up to 1.'],['Temperature','Randomness setting: low = predictable, high = creative.'],['Pre-training','Learning to predict the next token over huge text; makes a base model.'],['Fine-tuning','Extra training on your own examples to change behaviour or style.'],['RLHF','Reinforcement learning from human feedback: rewarding preferred answers.'],['LoRA','Cheap fine-tuning that trains a small add-on instead of the whole model.'],['Context window','How many tokens the model can see at once — its working memory.'],['Hallucination','A confident answer that is false.'],['System prompt','Standing instructions that set the model\'s role and rules.'],['Few-shot','Including a few worked examples in the prompt.'],['Chain-of-thought','Asking the model to reason step by step.'],['API','A way for your code to call another service over the internet.'],['JSON / JSONL','Text formats for structured data; JSONL = one JSON object per line.'],['Embedding','A vector of numbers representing meaning.'],['Cosine similarity','How closely two vectors point the same way: 1 = very similar, 0 = unrelated.'],['Vector database','Stores embeddings and finds similar ones fast (Chroma, pgvector…).'],['Chunking','Splitting documents into small overlapping pieces.'],['RAG','Retrieval-augmented generation: fetch relevant text, then answer from it.'],['Hybrid search','Combining keyword search with vector search (or graph facts).'],['Knowledge graph','Facts as nodes joined by typed relationships.'],['Triple','One fact: subject → relationship → object.'],['Cypher','Neo4j\'s graph query language.'],['Entity resolution','Merging duplicate names for the same thing into one node.'],['GraphRAG','RAG that retrieves connected facts from a knowledge graph.'],['Tool calling','The model writes a structured request; your code runs the tool.'],['Agent','An LLM using tools in a loop to reach a goal.'],['ReAct','Reason + Act: the think → act → observe loop.'],['Workflow','A fixed sequence of LLM steps you design (chain, router, parallel).'],['Harness','All the code around a model that makes it an agent.'],['Context engineering','Choosing what goes into the context window each step.'],['Prompt injection','Text an agent reads that tries to give it hidden orders.'],['Guardrails','Rules and permission checks that keep an AI system safe.'],['MCP','Model Context Protocol: an open standard connecting AI apps to tools and data.'],['Sub-agent','A helper agent with a fresh context for one focused job.'],['Evals','Test sets and scores that measure an AI system.'],['LLM-as-judge','Using a model to grade answers against a rubric.'],['Trace','A log of every step of one request: inputs, tools, outputs, tokens, time.'],['Pyodide','Python running inside a web browser — powers the practice boxes here.']];
+const showG=q=>{q=q.toLowerCase();const r=G.filter(g=>(g[0]+' '+g[1]).toLowerCase().includes(q));$('glo').innerHTML=r.length?r.map(g=>`<div><b>${g[0]}</b><br><span class="mut">${g[1]}</span></div>`).join(''):'<p class="mut">No match — try another word.</p>'};
+$('q').addEventListener('input',e=>showG(e.target.value));showG('');
+
+/* ---------- boot ---------- */
+load();
+fetch('course.json').then(r=>r.json()).then(d=>{C=d;render()}).catch(()=>{$('topics').innerHTML='<p class="band">The course data could not load. Please refresh the page.</p>'});
+}
+</script>
+</body>
+</html>
